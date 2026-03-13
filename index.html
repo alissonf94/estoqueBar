@@ -17,14 +17,14 @@
 <script>
     console.log("--------- Inicializando o sistema de estoque do bar --------");
 
-    if (BarManager.listarEstoque().length === 0) {
+    if (BarManager.buscarEstoque().length === 0) {
             BarManager.adicionarBebida('Cerveja Skol 600ml', 120, 9.50);
             BarManager.adicionarBebida('Cerveja Heineken 330ml', 80, 12.00);
             BarManager.adicionarBebida('Combo Vodka + Energético', 15, 150.00);
         }
 
     console.log("Estoque atual:");
-    console.table(BarManager.listarEstoque());
+    console.table(BarManager.buscarEstoque());
 
     console.log("--------- Registrando um usuário para testes de login ---------");
    
@@ -34,17 +34,17 @@
     
     console.log("--------- iniciando login ---------");
     
-    if(UsuarioManager.login('alissonf94', 'senha1234')){
+    if(UsuarioManager.login(usuario.username, usuario.password)){
         console.log("Login bem-sucedido!");
         
         console.log(" --------- Inciando uma compra ---------");   
         BarManager.venderBebida(1, 2, usuario.id);
         
         console.log(" --------- Buscando historico de compras do cliente ---------");
-        console.table(BarManager.BuscarHistoricoDeComprasPorUsuario(usuario.id));
+        console.table(BarManager.buscarHistoricoDeComprasPorUsuario(usuario.id));
 
         console.log(" --------- Listando estoque atualizado ---------");
-
+        console.table(BarManager.buscarEstoque());
     }
     
     else{

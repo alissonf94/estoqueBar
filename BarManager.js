@@ -12,7 +12,7 @@ const BarManager = {
     },
 
   
-    listarEstoque() {
+    buscarEstoque() {
         return DB.buscar('estoque_bar').filter(item => item.ativo);
     },
 
@@ -62,7 +62,7 @@ const BarManager = {
     },
 
 
-    BuscarHistoricoDeComprasPorUsuario(idUsuario) {
+    buscarHistoricoDeComprasPorUsuario(idUsuario) {
         const historico = DB.buscar('historico_vendas');
         return historico.filter(registro => registro.idUsuario === idUsuario);
     }

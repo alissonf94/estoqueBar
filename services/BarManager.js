@@ -5,6 +5,7 @@ const BarManager = {
         const proximoId = estoque.length > 0 ? estoque[estoque.length - 1].id + 1 : 1;
         
         const novoItem = Bebida(proximoId, descricao, quantidade, preco);
+        
         estoque.push(novoItem);
         
         DB.salvar('estoque_bar', estoque);
@@ -20,23 +21,46 @@ const BarManager = {
     atualizarPreco(id, novoPreco) {
         let estoque = DB.buscar('estoque_bar');
         const index = estoque.findIndex(item => item.id === id);
+       
         if (index !== -1) {
             estoque[index].preco = novoPreco;
             DB.salvar('estoque_bar', estoque);
+
+            return;
         }
+        
+        throw new Error(`Bebida com ID ${id} não encontrada.`);
     },
 
+    
 
-    removerProduto(id) {
+    removerBebidaPorId(id) {
         let estoque = DB.buscar('estoque_bar');
         const index = estoque.findIndex(item => item.id === id);
+      
         if (index !== -1) {
             estoque[index].ativo = false; 
+            DB.salvar('estoque_bar', estoque);
+           
+            return;
+        }
+
+        throw new Error(`Bebida com ID ${id} não encontrada.`);
+    },
+
+   atualizarStatusBebida (id)  {
+        let estoque = DB.buscar('estoque_bar');
+        
+        let bebida = estoque.find(item => item.id === id);
+        
+        if(bebida.quantidade === 0){
+            
+            bebida.ativo = false;
+            
             DB.salvar('estoque_bar', estoque);
         }
     },
 
-  
     venderBebida(idItem, qtdDesejada, idUsuario) {
         let estoque = DB.buscar('estoque_bar');
         let historico = DB.buscar('historico_vendas');
@@ -52,7 +76,7 @@ const BarManager = {
         item.quantidade -= qtdDesejada;
 
         const registro = registroVenda( proximoId, new Date().toLocaleString(), item.descrição, qtdDesejada, item.preco, (item.preco * qtdDesejada), idUsuario);
-
+    
         historico.push(registro);
         
         DB.salvar('estoque_bar', estoque);
@@ -60,10 +84,20 @@ const BarManager = {
         
         return registro;
     },
-
-
+ 
     buscarHistoricoDeComprasPorUsuario(idUsuario) {
         const historico = DB.buscar('historico_vendas');
         return historico.filter(registro => registro.idUsuario === idUsuario);
+    },
+
+    buscarBebidaPorId(id) {
+        const estoque = DB.buscar('estoque_bar');
+        let bebida = estoque.find(item => item.id === id && item.ativo);
+       
+        if(bebida !== null){
+            return bebida;
+        }
+        
+        throw new Error(`Bebida com ID ${id} não encontrada.`);
     }
 };

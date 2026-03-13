@@ -8,12 +8,12 @@
 <body>
     
 </body>
-<script src="Usuario.js"></script>
-<script src="database.js"></script>
-<script src="Bebida.js"></script>
-<script src="RegistroVenda.js"></script> 
-<script src="BarManager.js"></script>
-<script src="UsuarioManager.js"></script> 
+<script src="entidades/Usuario.js"></script>
+<script src="infra/database.js"></script>
+<script src="entidades/Bebida.js"></script>
+<script src="entidades/RegistroVenda.js"></script> 
+<script src="services/BarManager.js"></script>
+<script src="services/UsuarioManager.js"></script> 
 <script>
     console.log("--------- Inicializando o sistema de estoque do bar --------");
 
@@ -38,17 +38,40 @@
         console.log("Login bem-sucedido!");
         
         console.log(" --------- Inciando uma compra ---------");   
-        BarManager.venderBebida(1, 2, usuario.id);
+        BarManager.venderBebida(3, 15, usuario.id);
         
+        console.log(" --------- Atualizando status da bebida ---------")
+        BarManager.atualizarStatusBebida(3);
+       
         console.log(" --------- Buscando historico de compras do cliente ---------");
         console.table(BarManager.buscarHistoricoDeComprasPorUsuario(usuario.id));
 
         console.log(" --------- Listando estoque atualizado ---------");
         console.table(BarManager.buscarEstoque());
     }
-    
     else{
         console.log("Falha no login. Verifique as credenciais e tente novamente.");
     }
+
+    console.log("--------- Buscando bebida por id ---------");
+    let bebida = BarManager.buscarBebidaPorId(1);
+    console.log(`Bebida encontrada: ${bebida.nome}, Preço: R$${bebida.preco}, Quantidade: ${bebida.quantidade}`);
+
+    console.log("--------- Removendo bebida por id ---------");
+    if(BarManager.removerBebidaPorId(2)){
+        console.log(`Bebida com ID ${2} removida com sucesso!`);
+    }
+
+    console.log("--------- Listando estoque atualizado após remoção ---------");
+    console.table(BarManager.buscarEstoque());
+
+    console.log("--------- Atualizando preco de uma bebida  ---------");
+    if(BarManager.atualizarPreco(1, 17.00)){
+        console.log("Preço atualizado com sucesso!");
+    }
+
+    console.log("--------- Listando estoque atualizado após atualização de preço ---------");
+    console.table(BarManager.buscarEstoque());
+
 </script>
 </html>

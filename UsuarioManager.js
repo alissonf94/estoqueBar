@@ -5,7 +5,7 @@
             const usuario = usuarios.find(u => u.username === username && u.password === password);
     
             
-            return usuario === null ? true : false;
+            return usuario !== null ? true : false;
         },
         registrarUsuario(nome, username, password) {
             const usuarios = DB.buscar('usuarios');

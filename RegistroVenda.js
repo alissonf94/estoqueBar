@@ -1,4 +1,4 @@
-const registro = (id, data, produto, quantidade, valorUnitario, totalPago, idUsuario) => ({
+const registroVenda = (id, data, produto, quantidade, valorUnitario, totalPago, idUsuario) => ({
     idTransacao: id,
     data: data,
     produto: produto,

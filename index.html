@@ -38,7 +38,13 @@
         console.log("Login bem-sucedido!");
         
         console.log(" --------- Inciando uma compra ---------");   
+        BarManager.venderBebida(1, 2, usuario.id);
         
+        console.log(" --------- Buscando historico de compras do cliente ---------");
+        console.table(BarManager.BuscarHistoricoDeComprasPorUsuario(usuario.id));
+
+        console.log(" --------- Listando estoque atualizado ---------");
+
     }
     
     else{

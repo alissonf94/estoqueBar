@@ -61,7 +61,8 @@ const BarManager = {
         return registro;
     },
 
-    BuscarHistoricoDeVendasPorUsuario(idUsuario) {
+
+    BuscarHistoricoDeComprasPorUsuario(idUsuario) {
         const historico = DB.buscar('historico_vendas');
         return historico.filter(registro => registro.idUsuario === idUsuario);
     }
